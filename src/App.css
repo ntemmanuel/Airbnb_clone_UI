@@ -1,0 +1,196 @@
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Header layout */
+.listings-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Search input */
+.search-bar {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  background: white;
+  transition: border 0.2s ease;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #222;
+}
+
+/* Saved badge */
+.saved-badge {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Toggle button */
+.listings-toggle {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.listings-toggle:hover {
+  border-color: #222;
+}
+
+/* Results count */
+.listings-count {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+/* Grid layout */
+.listings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+
+
+/* Empty state */
+.listings-empty {
+  text-align: center;
+  margin-top: 40px;
+  color: #777;
+}
+
+
+
+
+/* Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  background: white;
+  border-bottom: 1px solid #eee;
+  z-index: 10;
+}
+
+.navbar__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.navbar__logo {
+  color: #ff385c;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* Actions */
+.navbar__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.navbar__btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: white;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.navbar__btn:hover {
+  border-color: #222;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;
+  border-top: 1px solid #eee;
+  background: #fafafa;
+}
+
+.footer__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 13px;
+  color: #717171;
+}
+
+/* Links */
+.footer__links {
+  display: flex;
+  gap: 16px;
+}
+
+.footer__links a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer__links a:hover {
+  text-decoration: underline;
+}
+
+
+/* Saved slide panel */
+.saved-panel {
+  position: fixed;
+
+  top: 100px;
+  right: 20px;
+
+  width: 260px;
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.12);
+
+  z-index: 50;
+}
+
+.saved-panel h3 {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.saved-panel ul {
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.saved-panel li {
+  font-size: 14px;
+  color: #444;
+}
