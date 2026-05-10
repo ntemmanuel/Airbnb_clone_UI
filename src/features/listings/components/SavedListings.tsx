@@ -34,7 +34,7 @@ export const SavedListings = () => {
       leaveTo="transform translate-x-full opacity-0"
     >
       <aside className="saved-panel">
-        <h3>Saved Listings</h3>
+        <h3 style={{ fontWeight: 'bold' }}>Saved Listings</h3>
 
         <ul>
           {savedListings.map((listing) => (

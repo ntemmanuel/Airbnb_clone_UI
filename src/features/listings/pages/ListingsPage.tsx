@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import { ListingCard } from '../components/ListingCard';
-import { SavedBadge } from '../components/SavedBadge';
+// import { SavedBadge } from '../components/SavedBadge';
 import { SavedListings } from '../components/SavedListings';
 import { SearchBar } from '../components/SearchBar';
 
@@ -11,77 +11,143 @@ import { useListings } from '../hooks/useListings';
 
 import { useStore } from '../../../store/useStore';
 
-// This page now acts mostly as a composition layer.
+import './ListingsPage.css';
+
+// Listings page
 //
-// Logic has been extracted into:
-// - global store
-// - custom hooks
+// Responsibilities:
+// - Load listings
+// - Read global store state
+// - Filter listings
+// - Render listing grid
+// - Render saved panel
 //
-// The page simply:
-// - reads state
-// - derives filtered data
-// - renders UI
+// Why this exists:
+// This is the feature composition layer.
+// State lives in the global store.
+// Components stay reusable and focused.
 
 export const ListingsPage = () => {
-  // Load listings on mount
+  // Load listings on first mount
+  //
+  // Hook internally handles:
+  // - loading state
+  // - simulated async fetch
+  // - dispatching listings to store
   useListings();
 
+  // Global store access
   const { state } = useStore();
 
-  // Memoized filtering
+  // Memoized filtered results
   //
   // Why useMemo?
-  // - Prevents unnecessary recalculation
-  // - Improves performance
+  // Prevents recalculating filters
+  // on every render unless dependencies change.
   const filteredListings = useMemo(() => {
+    const query = state.filter.toLowerCase();
+
     return state.listings.filter((listing) => {
-      const query = state.filter.toLowerCase();
+      // Match title OR location
+      const matchesQuery =
+        listing.title.toLowerCase().includes(query) ||
+        listing.location.toLowerCase().includes(query);
+
+      // Optional saved-only filtering
+      const matchesSaved =
+        !state.savedOnly ||
+        state.saved.includes(listing.id);
 
       return (
-        listing.title
-          .toLowerCase()
-          .includes(query) ||
-        listing.location
-          .toLowerCase()
-          .includes(query)
+        matchesQuery &&
+        matchesSaved
       );
     });
-  }, [state.listings, state.filter]);
+  }, [
+    state.listings,
+    state.filter,
+    state.saved,
+    state.savedOnly,
+  ]);
 
-  // Loading state
+  // Loading UI
   if (state.loading) {
     return <Spinner />;
   }
 
   return (
-    <div className="listings-page">
-      <div className="listings-header">
+    <section className='listings-page'>
+      {/* Header */}
+      <div className='listings-header'>
+        {/* Search */}
         <SearchBar />
 
-        <SavedBadge count={state.saved.length} />
+        {/* Right controls */}
+        <div className='listings-actions'>
+          {/* Saved count */}
+          {/* <SavedBadge count={state.saved.length} /> */}
+
+          {/* Saved-only toggle */}
+          {/* <button
+            className='listings-button'
+            onClick={() =>
+              dispatch({
+                type: 'TOGGLE_SAVED_ONLY',
+              })
+            }
+          >
+            {state.savedOnly
+              ? 'Show All'
+              : 'Saved Only'}
+          </button> */}
+
+          {/* Reset filters + favorites */}
+          {/* <button
+            className='listings-button listings-button--danger'
+            onClick={() =>
+              dispatch({
+                type: 'RESET',
+              })
+            }
+          >
+            Clear All
+          </button> */}
+        </div>
       </div>
 
-      <p className="listings-count">
+      {/* Results count */}
+      <p className='listings-count'>
         {filteredListings.length} result
-        {filteredListings.length !== 1 && 's'}
+        {filteredListings.length !== 1 &&
+          's'}
       </p>
 
-      <div className="listings-grid">
-        {filteredListings.map((listing) => (
-          <ListingCard
-            key={listing.id}
-            listing={listing}
-          />
-        ))}
-      </div>
-
-      {filteredListings.length === 0 && (
-        <p className="listings-empty">
+      {/* Empty state */}
+      {filteredListings.length === 0 ? (
+        <p className='listings-empty'>
           No listings found.
         </p>
+      ) : (
+        // Responsive grid layout
+        //
+        // Why this exists:
+        // Cleaner Airbnb-style layout
+        // Simpler than virtualization
+        // Better UX for medium-sized lists
+        <div className='listingsGrid'>
+          {filteredListings.map(
+            (listing) => (
+              <ListingCard
+                key={listing.id}
+                listing={listing}
+              />
+            ),
+          )}
+        </div>
       )}
 
+      {/* Slide-in saved panel */}
       <SavedListings />
-    </div>
+    </section>
   );
 };

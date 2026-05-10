@@ -16,7 +16,6 @@ import type { Action, State } from './types';
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-
     // Replace listings in state
     case 'SET_LISTINGS':
       return {
@@ -36,6 +35,19 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         filter: action.payload,
+      };
+    case 'RESET':
+      return {
+        ...state,
+        filter: '',
+        saved: [],
+      };
+
+    case 'TOGGLE_SAVED_ONLY':
+      return {
+        ...state,
+
+        savedOnly: !state.savedOnly,
       };
 
     // Save/unsave a listing

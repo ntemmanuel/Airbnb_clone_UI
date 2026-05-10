@@ -23,7 +23,17 @@ export interface State {
 
   // Array of saved/favorited listing IDs
   saved: number[];
+
+  savedOnly: boolean;
+  advancedFilter: AdvancedFilter;
 }
+
+type AdvancedFilter = {
+  location: string;
+  checkIn: string;
+  checkOut: string;
+  guests: string;
+};
 
 // Action union (all allowed store updates)
 //
@@ -45,4 +55,19 @@ export type Action =
   | {
       type: 'TOGGLE_FAVORITE';
       payload: number; // listing ID
+    }
+  | {
+      type: 'RESET';
+    }
+  | {
+    type: 'TOGGLE_SAVED_ONLY';
+  }  
+  | {
+    type: 'SET_ADVANCED_FILTER';
+    payload: {
+      location: string;
+      checkIn: string;
+      checkOut: string;
+      guests: string;
     };
+  }

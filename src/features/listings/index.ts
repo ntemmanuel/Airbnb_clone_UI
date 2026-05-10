@@ -12,3 +12,4 @@
 // ✅ ONLY import from: features/listings
 
 export { ListingsPage } from './pages/ListingsPage';
+export { ListingDetail } from './pages/ListingDetail';

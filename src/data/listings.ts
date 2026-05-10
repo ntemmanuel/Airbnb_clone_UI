@@ -12,7 +12,7 @@ import type { Listing } from '../features/listings/types';
 // - Every object must follow the Listing interface
 // - This ensures type safety across the app
 
-export const listings: Listing[] = [
+export const baseListings: Listing[] = [
   {
     id: 1,
     title: 'Oceanfront Escape',
@@ -86,3 +86,27 @@ export const listings: Listing[] = [
     category: 'city',
   },
 ];
+
+// Generate 50 listings
+export const listings: Listing[] =
+  Array.from({ length: 50 }, (_, index) => {
+    const base =
+      baseListings[
+        index % baseListings.length
+      ];
+
+    return {
+      ...base,
+
+      // Ensure unique IDs
+      id: index + 1,
+
+      // Slightly unique title
+      title: `${base.title} #${index + 1}`,
+
+      // Slightly varied price
+      price:
+        base.price +
+        Math.floor(Math.random() * 40),
+    };
+  });

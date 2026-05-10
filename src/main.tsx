@@ -1,34 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
+import { BrowserRouter } from 'react-router-dom';
+
 import { Toaster } from 'react-hot-toast';
 
-
 import App from './App';
+
+
 import { StoreProvider } from './store/StoreProvider';
+
+import { AuthProvider } from './features/auth/context/AuthProvider';
 
 import './index.css';
 
+// Root application entry point
+//
+// Global providers are layered here:
+//
+// BrowserRouter
+//   → routing
+//
+// AuthProvider
+//   → authentication state
+//
+// StoreProvider
+//   → app data state
+//
+// Toaster
+//   → notifications
 
-// This is the true application entry point.
-//
-// Responsibilities:
-// - Mount React into the DOM
-// - Wrap the app with global providers
-// - Configure app-wide systems (toasts, store, etc.)
-//
-// Why StoreProvider goes here:
-// - Makes global state accessible everywhere
-//
-// Why Toaster goes here:
-// - Makes toast notifications available globally
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(
+  document.getElementById('root')!
+).render(
   <React.StrictMode>
-    <StoreProvider>
-      <App />
+    <BrowserRouter>
+      <AuthProvider>
+        <StoreProvider>
+          <App />
 
-      {/* Global toast notifications */}
-      <Toaster position="bottom-right" />
-    </StoreProvider>
+          <Toaster position="bottom-right" />
+        </StoreProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
